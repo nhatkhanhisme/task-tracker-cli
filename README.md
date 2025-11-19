@@ -107,6 +107,6 @@ Contributions are welcome! Please fork the repository and create a pull request 
 ## 📞 Contact
 
 For any questions or suggestions, please open an issue in the repository.
-**Project URL:** [https://github.com/nhatkhanhisme/task-tracker-cli]
+**Project URL:** [https://roadmap.sh/projects/task-tracker]
 
 Happy Task Tracking! 🚀

@@ -1,36 +1,110 @@
 # Task Tracker CLI
 
-`task-tracker-cli` is a simple command-line interface (CLI) application designed to track and manage your tasks. This project is an exercise to practice programming skills, including working with the filesystem, handling user inputs, and building a simple CLI application.
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
 
-This project is built with no external libraries and stores all data in a local `tasks.json` file.
+A simple, robust Command Line Interface (CLI) application for tracking and managing your daily tasks.
 
-## ✨ Features
+This project is built entirely using **Native Java**, focusing on low-level file manipulation and custom data handling without relying on any external JSON libraries (like Gson or Jackson).
 
-* **Add** new tasks.
-* **Update** the description of existing tasks.
-* **Delete** a task.
-* **Mark** a task's status as `in-progress` or `done`.
-* **List** all tasks.
-* **Filter** and list tasks by their status: `todo`, `in-progress`, or `done`.
+## 📋 Features
 
-## 🚀 Installation & Setup
+- **CRUD Operations:** Add, Update, and Delete tasks.
+- **Status Management:** Mark tasks as `todo`, `in-progress`, or `done`.
+- **Filtering:** List all tasks or filter them by specific status.
+- **Persistent Storage:** Data is automatically saved to a JSON file (`data/tasks.json`).
+- **Native Implementation:** Custom logic for JSON parsing and string manipulation.
 
-1.  Clone this repository to your local machine:
-    ```bash
-    git clone [https://github.com/nhatkhanhisme/task-tracker-cli.git](https://github.com/nhatkhanhisme/task-tracker-cli.git)
-    cd task-tracker-cli
-    ```
+## 🛠️ Prerequisites
 
-2.  Compile the project:
-    ``` # For Java
-      javac -d out src/*.java
+- **Java Development Kit (JDK):** Version 11 or higher.
+- **Terminal:** Command Prompt, PowerShell, or Bash.
 
-    *(If using a scripting language like Python or Node.js, you can skip this and run the file directly).*
+## 🚀 Installation & Usage
 
-3.  (Optional) To make `task-cli` runnable from anywhere, you can move the executable file to a directory in your system's `PATH`.
+### 1. Compile the Project
 
-## 📋 Usage
+Open your terminal in the project directory and compile the Java source file:
 
-All commands follow the structure `task-cli [ACTION] [ARGUMENTS]`.
+```bash
+javac -d out src/*.java
+```
 
+### 2. Run the application
 
+Use the **java** command followed by the class name and your desired arguments:
+
+#### Add a Task
+
+```bash
+java -cp out TaskTracker add "Task Title" "Task Description"
+  #Output: Task added successfully (ID: 1)
+```
+
+#### Delete a task
+
+```bash
+java -cp out TaskTracker delete 1
+  #Output: Task with ID 1 deleted successfully.
+```
+
+#### Update a task
+
+```bash
+java -cp out TaskTracker update 1 "Updated Title" "Updated Description"
+  #Output: Task with ID 1 updated successfully.
+```
+
+#### Mark a task as done
+
+```bash
+java -cp out TaskTracker mark-done 1
+  #Output: Task with ID 1 marked as done.
+```
+
+#### List all tasks
+
+```bash
+java -cp out TaskTracker list
+
+  #Output: Displays all tasks with their details.
+```
+
+#### List tasks by status
+
+```bash
+java -cp out TaskTracker list todo
+  #Output: Displays all tasks with status 'todo'.
+```
+
+## 📁 Project Structure
+
+```
+TaskTracker/
+├── src/                  # Source code directory
+│   └── TaskTracker.java  # Main application file
+
+├── data/                 # Directory for storing task data
+│   └── tasks.json       # JSON file for task storage
+├── out/                  # Compiled classes output directory
+└── README.md             # Project documentation
+```
+
+## 📝 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgements
+
+- Inspired by the need for simple task management tools.
+- Thanks to the open-source community for continuous learning and support.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
+
+## 📞 Contact
+
+For any questions or suggestions, please open an issue in the repository.
+Happy Task Tracking! 🚀

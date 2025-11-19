@@ -140,6 +140,8 @@ public class TaskTracker {
         handleDeleteCommand(args);
         break;
       case "mark-in-progress":
+        handleMarkInProgressCommand(args);
+        break;
       case "mark-done":
         handleMarkDoneCommand(args);
         break;
@@ -175,7 +177,6 @@ public class TaskTracker {
   }
 
   private static void handleUpdateCommand(String[] args) {
-    // Implementation here
 
     if (args.length < 3) {
       System.err.println("Error: 'update' command requires a description.");
@@ -206,17 +207,111 @@ public class TaskTracker {
   }
 
   private static void handleDeleteCommand(String[] args) {
-    // Implementation here
+    long id = args[1].isEmpty() ? -1 : Long.parseLong(args[1]);
+
+    if (id == -1) {
+      System.err.println("Error: Invalid task ID.");
+      printHelp();
+      return;
+    }
+    boolean foundId = false;
+    for (Task t : tasks) {
+      if (t.id == id) {
+        foundId = true;
+        tasks.remove(t);
+        break;
+      }
+    }
+    if (!foundId) {
+      System.err.println("Error: Task ID not found.");
+      return;
+    }
+    saveTasksToFile(tasks);
+    System.out.println("Task deleted successfully with ID: " + id);
+  }
+
+  private static void handleMarkInProgressCommand(String[] args) {
+    long id = args[1].isEmpty() ? -1 : Long.parseLong(args[1]);
+    if (id == -1) {
+      System.err.println("Error: Invalid task ID.");
+      printHelp();
+      return;
+    }
+
+    String now = java.time.LocalDateTime.now().toString();
+    boolean foundId = false;
+    for (Task t : tasks) {
+      if (t.id == id) {
+        t.status = "in-progress";
+        t.updatedAT = now;
+        foundId = true;
+        break;
+      }
+    }
+    if (!foundId) {
+      System.err.println("Error: Task ID not found.");
+      return;
+    }
+    saveTasksToFile(tasks);
+    System.out.println("Task marked as In Progress successfully with ID: " + id);
   }
 
   private static void handleMarkDoneCommand(String[] args) {
-    // Implementation here
+    long id = args[1].isEmpty() ? -1 : Long.parseLong(args[1]);
+    if (id == -1) {
+      System.err.println("Error: Invalid task ID.");
+      printHelp();
+      return;
+    }
+
+    String now = java.time.LocalDateTime.now().toString();
+    boolean foundId = false;
+    for (Task t : tasks) {
+      if (t.id == id) {
+        t.status = "done";
+        t.updatedAT = now;
+        foundId = true;
+        break;
+      }
+    }
+    if (!foundId) {
+      System.err.println("Error: Task ID not found.");
+      return;
+    }
+    saveTasksToFile(tasks);
+    System.out.println("Task marked as In Progress successfully with ID: " + id);
   }
 
   private static void handleListCommand(String[] args) {
-    // Implementation here
-    for (Task t : tasks) {
-      System.out.println("ID: " + t.id + ", Description: " + t.description + ", Status: " + t.status);
+    int len = args.length;
+    if (len < 2) {
+      System.out.println("Listing all tasks:");
+      // List all tasks
+      for (Task t : tasks) {
+        System.out
+            .println("[ID]: " + t.id + ", Status: " + t.status + ", Description: " + t.description);
+      }
+    }
+    // List by status
+    else if (len == 2) {
+      String filter = args[1];
+
+      if (filter == null || (!filter.equals("in-progress") && !filter.equals("done")) &&
+          !filter.equals("todo")) {
+        System.err.println(
+            "Error: Invalid filter. Use one of: todo, in-progress, done.");
+        printHelp();
+        return;
+      }
+      for (Task t : tasks) {
+        if (filter.equals(t.status))
+          System.out
+              .println("[ID]: " + t.id + ", Status: " + t.status + ", Description: " + t.description);
+      }
+    } else {
+      System.err.println("Error: 'list' command takes at most one argument.");
+      printHelp();
+      return;
     }
   }
 

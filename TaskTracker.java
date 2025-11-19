@@ -54,6 +54,7 @@ public class TaskTracker {
   //
   private static final Path TASKS_FILE_PATH = Paths.get("tasks.json");
   private static List<Task> tasks = new ArrayList<>();
+
   // Ham de luu du lieu
   public static void saveTasksToFile(List<Task> allTask) {
     StringBuilder jsonBuilder = new StringBuilder();
@@ -79,44 +80,46 @@ public class TaskTracker {
     }
   }
 
-public static void  loadTasksFromFile() {
+  public static void loadTasksFromFile() {
 
-  if (!Files.exists(TASKS_FILE_PATH)) {
-    System.out.println("No tasks.json found. Starting fresh.");
-    return;
-  }
-
-  try {
-    String content = Files.readString(TASKS_FILE_PATH);
-
-    // Tách từng object (cách đơn giản)
-    String[] items = content.split("\\{");
-
-    long maxId = 0;
-
-    for (String item : items) {
-      if (!item.contains("id")) continue;
-
-      long id = Long.parseLong(item.split("\"id\":")[1].trim().split(",")[0].trim());
-      String description = item.split("\"description\":")[1].trim().split("\"")[1];
-      String status = item.split("\"status\":")[1].trim().split("\"")[1];
-      String createdAt = item.split("\"createdAT\":")[1].trim().split("\"")[1];
-      String updatedAt = item.split("\"updatedAT\":")[1].trim().split("\"")[1];
-
-      // Tạo task từ dữ liệu có sẵn
-      Task t = new Task(id, description, status, createdAt, updatedAt);
-      tasks.add(t);
-
-      if (id > maxId) maxId = id;
+    if (!Files.exists(TASKS_FILE_PATH)) {
+      System.out.println("No tasks.json found. Starting fresh.");
+      return;
     }
 
-    // Cập nhật nextId
-    Task.updateNextId(maxId);
-  } catch (Exception e) {
-    System.err.println("Error loading tasks: " + e.getMessage());
-    return;
+    try {
+      String content = Files.readString(TASKS_FILE_PATH);
+
+      // Tách từng object (cách đơn giản)
+      String[] items = content.split("\\{");
+
+      long maxId = 0;
+
+      for (String item : items) {
+        if (!item.contains("id"))
+          continue;
+
+        long id = Long.parseLong(item.split("\"id\":")[1].trim().split(",")[0].trim());
+        String description = item.split("\"description\":")[1].trim().split("\"")[1];
+        String status = item.split("\"status\":")[1].trim().split("\"")[1];
+        String createdAt = item.split("\"createdAT\":")[1].trim().split("\"")[1];
+        String updatedAt = item.split("\"updatedAT\":")[1].trim().split("\"")[1];
+
+        // Tạo task từ dữ liệu có sẵn
+        Task t = new Task(id, description, status, createdAt, updatedAt);
+        tasks.add(t);
+
+        if (id > maxId)
+          maxId = id;
+      }
+
+      // Cập nhật nextId
+      Task.updateNextId(maxId);
+    } catch (Exception e) {
+      System.err.println("Error loading tasks: " + e.getMessage());
+      return;
+    }
   }
-}
 
   public static void main(String[] args) {
     loadTasksFromFile();
@@ -168,17 +171,48 @@ public static void  loadTasksFromFile() {
     Task newTask = new Task(dcrs, "todo", now, now);
     tasks.add(newTask);
     saveTasksToFile(tasks);
-    System.out.println("Task added successfully with ID: " + newTask.id);
+    System.out.println("Task added successfully (ID: " + newTask.id);
   }
+
   private static void handleUpdateCommand(String[] args) {
     // Implementation here
+
+    if (args.length < 3) {
+      System.err.println("Error: 'update' command requires a description.");
+      printHelp();
+      return;
+    }
+    long id = args[1].isEmpty() ? -1 : Long.parseLong(args[1]);
+    if (id == -1) {
+      System.err.println("Error: Invalid task ID.");
+      printHelp();
+      return;
+    }
+    String dcrs = args[2];
+    if (dcrs.trim().isEmpty()) {
+      System.err.println("Error: Task description cannot be empty.");
+      return;
+    }
+    String now = java.time.LocalDateTime.now().toString();
+    for (Task t : tasks) {
+      if (t.id == id) {
+        t.description = dcrs;
+        t.updatedAT = now;
+        break;
+      }
+    }
+    saveTasksToFile(tasks);
+    System.out.println("Task update successfully with ID: " + id);
   }
+
   private static void handleDeleteCommand(String[] args) {
     // Implementation here
   }
+
   private static void handleMarkDoneCommand(String[] args) {
     // Implementation here
   }
+
   private static void handleListCommand(String[] args) {
     // Implementation here
     for (Task t : tasks) {

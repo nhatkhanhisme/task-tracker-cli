@@ -1,10 +1,10 @@
 [
   {
     "id": 1,
-    "description": "Buy Groceries",
+    "description": "Test Update Command",
     "status": "todo",
     "createdAT": "2024-06-01T12:00:00Z",
-    "updatedAT": "2024-06-01T12:00:00Z"
+    "updatedAT": "2025-11-19T10:07:22.484677676"
  },
   {
     "id": 2,

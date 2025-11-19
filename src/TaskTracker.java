@@ -52,7 +52,7 @@ class Task {
 public class TaskTracker {
 
   //
-  private static final Path TASKS_FILE_PATH = Paths.get("tasks.json");
+  private static final Path TASKS_FILE_PATH = Paths.get("data/tasks.json");
   private static List<Task> tasks = new ArrayList<>();
 
   // Ham de luu du lieu

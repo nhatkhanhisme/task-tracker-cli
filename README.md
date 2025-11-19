@@ -22,11 +22,9 @@ This project is built with no external libraries and stores all data in a local 
     ```
 
 2.  Compile the project:
-    *(This step depends on your chosen programming language. For example, if using C++):*
-    ```bash
-    # Example compilation with C++
-    g++ -o task-cli main.cpp
-    ```
+    ``` # For Java
+      javac -d out src/*.java
+
     *(If using a scripting language like Python or Node.js, you can skip this and run the file directly).*
 
 3.  (Optional) To make `task-cli` runnable from anywhere, you can move the executable file to a directory in your system's `PATH`.
@@ -35,9 +33,4 @@ This project is built with no external libraries and stores all data in a local 
 
 All commands follow the structure `task-cli [ACTION] [ARGUMENTS]`.
 
-*(Note: If you did not add the executable to your $PATH, you might need to use `./task-cli` to run the commands)*
 
-### 1. Add a new task
-
-```bash
-task-cli add "Your task description"
